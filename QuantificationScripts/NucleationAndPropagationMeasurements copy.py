@@ -2403,8 +2403,7 @@ def calc_all_experiments_SPI_and_NI_for_landscape(
             res = calc_all_experiments_SPI_and_NI_for_landscape(
                 exp_name=exp,
                 exps_dir_path=exps_dir_path,
-                meta_data_full_file_path=meta_data_full_file_path,
-                **kwargs
+                meta_data_full_file_path=meta_data_full_file_path, **kwargs
             )
             results[exp] = res
         return results
@@ -2413,6 +2412,8 @@ def calc_all_experiments_SPI_and_NI_for_landscape(
         exp_full_path = os.path.join(exps_dir_path, exp_name)
         dist_threshold = kwargs.get("dist_threshold", 100)
         dist_in_pixel = kwargs.get("dist_in_pixel", False)
+        sliding_time_window_size = kwargs.get("sliding_time_window_size", 10)
+        only_recent_death_flag_for_neighbors_calc = kwargs.get("only_recent_death_flag_for_neighbors_calc", False)
         if dist_in_pixel:
             temp_csv_exract = pd.read_csv(meta_data_full_file_path)
             phys_size_x = temp_csv_exract[temp_csv_exract['File Name'] == exp_name]['PhysicalSizeX'].values[0]
@@ -2424,14 +2425,13 @@ def calc_all_experiments_SPI_and_NI_for_landscape(
 
         # norm_spi_values = norm_spi(cells_locis=cells_locis,cells_tods=cells_tods,exp_temporal_resolution=exp_temporal_resolution,exp_treatment=exp_treatment)
         spi =\
-            calc_experiment_SPI(cells_tods=cells_tods,
-                                cells_location=cells_locis,
-                                exp_temporal_resolution=exp_temporal_resolution,
-                                exp_treatment=exp_treatment,
-                                **kwargs,
-                                
-                                # sliding_time_window_size = sliding_time_window_size,
-                                # time_unit=kwargs.get('time_unit', 'minutes'),
+            calc_experiment_SPI(cells_tods=cells_tods,cells_location=cells_locis,
+                                        n_scramble=1000,
+                                        exp_temporal_resolution=exp_temporal_resolution,
+                                        exp_treatment=exp_treatment,
+                                        dist_threshold=dist_threshold,
+                                        sliding_time_window_size = sliding_time_window_size,
+                                        time_unit=kwargs.get('time_unit', 'minutes'),
                                         # filter_neighbors_by_distance=kwargs.get("filter_neighbors_by_distance", True),
                                         # filter_neighbors_by_level=kwargs.get("filter_neighbors_by_level", 1),
                                         )
@@ -2442,10 +2442,10 @@ def calc_all_experiments_SPI_and_NI_for_landscape(
                 all_frames_nucleators_mask, all_frames_propagators_mask, \
                 accumulated_fraction_of_death_by_time = \
                     calc_single_experiment_temporal_p_nuc_and_p_prop_and_endpoint_readouts_explicit_temporal_resolution(
-                        single_exp_full_path = exp_full_path,
+                        single_exp_full_path=exp_full_path,
                         dist_threshold = dist_threshold,
-                        sliding_time_window_size = kwargs.get("sliding_time_window_size", 10),
-                        only_recent_death_flag_for_neighbors_calc = kwargs.get("only_recent_death_flag_for_neighbors_calc", False),
+                        sliding_time_window_size=sliding_time_window_size,
+                        only_recent_death_flag_for_neighbors_calc=only_recent_death_flag_for_neighbors_calc,
                     meta_data_path=meta_data_full_file_path)
         return  spi, p_nuc_global# ,norm_spi_values[0],
     except FileNotFoundError:
@@ -2455,10 +2455,16 @@ def calc_all_experiments_SPI_and_NI_for_landscape(
 def calc_experiment_SPI(cells_location: list,
                         cells_tods:list,
                         exp_temporal_resolution:int,
+                        dist_threshold :int,
                         exp_treatment,
+                        n_scramble:int,
+                        sliding_time_window_size:int,
+                        time_unit:str,
                         **kwargs) -> int :
-    cells_tods = get_experiment_cell_death_times_by_specific_siliding_window(cells_times_of_death=cells_tods,sliding_window_size = kwargs.get('sliding_time_window_size',10))
-    spi_instance = uSpiCalc(XY=cells_location, die_times=cells_tods, temporal_resolution=exp_temporal_resolution, exp_treatment=exp_treatment, **kwargs)
+    cells_tods = get_experiment_cell_death_times_by_specific_siliding_window(cells_times_of_death=cells_tods,sliding_window_size = sliding_time_window_size)
+    spi_instance = uSpiCalc(XY=cells_location, die_times=cells_tods, temporal_resolution=exp_temporal_resolution if time_unit =='frames' else sliding_time_window_size, treatment= exp_treatment, n_scramble=n_scramble, dist_threshold=dist_threshold, filter_neighbors_by_distance = kwargs.get("filter_neighbors_by_distance",True) , filter_neighbors_by_level= kwargs.get("filter_neighbors_by_level",1),
+                        time_unit=time_unit,**kwargs)
+
     return spi_instance.get_uspis()
 
 
