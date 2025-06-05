@@ -7,8 +7,8 @@ import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from scipy.spatial import Voronoi
-sys.path.append("/home/esraan/CellDeathSpreading/code/")
-from utils import read_experiment_cell_xy_and_death_times
+from ..utils import read_experiment_cell_xy_and_death_times
+sys.path.append("/home/esraan/CellDeathSpreading/")
 from code.SpiCalc import SpiCalc
 
 class uSpiCalc(SpiCalc):
@@ -76,7 +76,6 @@ if __name__ == '__main__':
     print(ob.get_stat_score())
     experiments_dir = '/sise/assafzar-group/assafzar/Esraa/CellDeathQuantification/Data/Experiments_XYT_CSV/OriginalTimeMinutesData/'
     experiment_files = glob.glob(os.path.join(experiments_dir, '*.csv'))
-
     for single_exp_full_path in experiment_files:
         print(f"Processing file: {single_exp_full_path}")
         cells_loci, cells_times_of_death = read_experiment_cell_xy_and_death_times(exp_full_path=single_exp_full_path)

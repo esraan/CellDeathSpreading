@@ -3,11 +3,39 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 7,
             "patches": [
                 {
                     "date": 1749112276420,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1749112606572,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,8 @@\n import pandas as pd\n import matplotlib as mpl\n import matplotlib.pyplot as plt\n from scipy.spatial import Voronoi\n-sys.path.append(\"/home/esraan/CellDeathSpreading/code/\")\n from utils import read_experiment_cell_xy_and_death_times\n from code.SpiCalc import SpiCalc\n \n class CompuSpiCalc(SpiCalc):\n"
+                },
+                {
+                    "date": 1749112617289,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n import pandas as pd\n import matplotlib as mpl\n import matplotlib.pyplot as plt\n from scipy.spatial import Voronoi\n-from utils import read_experiment_cell_xy_and_death_times\n+from .utils import read_experiment_cell_xy_and_death_times\n from code.SpiCalc import SpiCalc\n \n class CompuSpiCalc(SpiCalc):\n     # die_times must be in frames number, dist_threshold is assumed to be in micron\n"
+                },
+                {
+                    "date": 1749112694953,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n import pandas as pd\n import matplotlib as mpl\n import matplotlib.pyplot as plt\n from scipy.spatial import Voronoi\n-from .utils import read_experiment_cell_xy_and_death_times\n+from Ce.utils import read_experiment_cell_xy_and_death_times\n from code.SpiCalc import SpiCalc\n \n class CompuSpiCalc(SpiCalc):\n     # die_times must be in frames number, dist_threshold is assumed to be in micron\n"
+                },
+                {
+                    "date": 1749112700857,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n import pandas as pd\n import matplotlib as mpl\n import matplotlib.pyplot as plt\n from scipy.spatial import Voronoi\n-from Ce.utils import read_experiment_cell_xy_and_death_times\n+from CellDea.utils import read_experiment_cell_xy_and_death_times\n from code.SpiCalc import SpiCalc\n \n class CompuSpiCalc(SpiCalc):\n     # die_times must be in frames number, dist_threshold is assumed to be in micron\n"
+                },
+                {
+                    "date": 1749112709321,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n import pandas as pd\n import matplotlib as mpl\n import matplotlib.pyplot as plt\n from scipy.spatial import Voronoi\n-from CellDea.utils import read_experiment_cell_xy_and_death_times\n+from CellDeathSpreading.utils import read_experiment_cell_xy_and_death_times\n from code.SpiCalc import SpiCalc\n \n class CompuSpiCalc(SpiCalc):\n     # die_times must be in frames number, dist_threshold is assumed to be in micron\n"
+                },
+                {
+                    "date": 1749112723324,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n import pandas as pd\n import matplotlib as mpl\n import matplotlib.pyplot as plt\n from scipy.spatial import Voronoi\n-from CellDeathSpreading.utils import read_experiment_cell_xy_and_death_times\n+from ..utils import read_experiment_cell_xy_and_death_times\n from code.SpiCalc import SpiCalc\n \n class CompuSpiCalc(SpiCalc):\n     # die_times must be in frames number, dist_threshold is assumed to be in micron\n"
+                },
+                {
+                    "date": 1749112748876,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n import pandas as pd\n import matplotlib as mpl\n import matplotlib.pyplot as plt\n from scipy.spatial import Voronoi\n-from CellDeathSpreading.utils import read_experiment_cell_xy_and_death_times\n+from CellDea.utils import read_experiment_cell_xy_and_death_times\n from code.SpiCalc import SpiCalc\n \n class CompuSpiCalc(SpiCalc):\n     # die_times must be in frames number, dist_threshold is assumed to be in micron\n"
                 }
             ],
             "date": 1749112276420,
