@@ -7,7 +7,7 @@ import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from scipy.spatial import Voronoi
-sys.path.append("/sise/assafzar-group/assafzar/Esraa/CellDeathQuantification/")
+sys.path.append("/home/esraan/CellDeathSpreading/code/")
 from utils import read_experiment_cell_xy_and_death_times
 from QuantificationScripts.SpiCalc import SpiCalc
 

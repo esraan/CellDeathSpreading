@@ -22,7 +22,7 @@ from matplotlib.collections import EllipseCollection,CircleCollection,PatchColle
 import math
 import numpy as np
 
-sys.path.append("/sise/assafzar-group/assafzar/Esraa/CellDeathQuantification/")
+sys.path.append("/home/esraan/CellDeathSpreading/code/")
 from QuantificationScripts.SpiCalc import SpiCalc
 
 class SegregationIdx:
