@@ -4,7 +4,7 @@ import numpy as np
 from scipy.spatial import Voronoi
 from abc import ABC , abstractmethod
 sys.path.append("/home/esraan/CellDeathSpreading/code/")
-from utils import get_experiment_cell_death_times_by_specific_siliding_window
+from src.utils import get_experiment_cell_death_times_by_specific_siliding_window
 
 class SpiCalc(ABC):
     def __init__(self, XY, die_times, temporal_resolution, n_scramble=1000,

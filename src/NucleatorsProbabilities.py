@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 from scipy.stats import pearsonr
-from utils import *
+from src.utils import *
 
 
 class NucleatorsProbabilities:

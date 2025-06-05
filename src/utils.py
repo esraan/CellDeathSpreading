@@ -239,17 +239,48 @@ def get_exp_treatment_type_and_temporal_resolution(exp_file_name: str,
     return exp_treatment, exp_time_res
 
 
-def read_experiment_cell_xy_and_death_times(exp_full_path: str) -> Tuple[np.array, np.array]:
+def read_experiment_cell_xy_and_death_times(exp_full_path: str, need_sorting: bool = False) -> Tuple[np.array, np.array]:
     """
     reads an experiment's csv file, returns the cell loci and times of deaths
     :param exp_full_path:
     :return: Tuple[np.array, np.array] - cells_loci, cells_times_of_death
     """
     full_df = pd.read_csv(exp_full_path)
+    if need_sorting:
+        full_df.sort_values(by='death_time', inplace=True)
+        full_df.reset_index(drop=True, inplace=True)
     cells_loci = full_df.loc[:, ['cell_x', 'cell_y']].values
     cells_times_of_death = full_df.loc[:, ['death_time']].values
     return cells_loci, cells_times_of_death
 
+def round_up_to_multiple(arr: np.ndarray, multiple: int) -> np.ndarray:
+    """
+    Rounds up the elements of a 1D numpy array to the nearest multiple of a specified number.
+
+    Parameters:
+        arr (np.ndarray): Input 1D numpy array.
+        multiple (int): The number to which elements should be rounded up.
+
+    Returns:
+        np.ndarray: A new array with elements rounded up to the nearest multiple of the specified number.
+    """
+    if multiple <= 0:
+        raise ValueError("The multiple must be a positive integer.")
+    return np.ceil(arr / multiple) * multiple
+
+def get_experiment_cell_death_times_by_specific_siliding_window(cells_times_of_death:np.ndarray,  sliding_window_size: int, sliding_window_in_minute: bool = True, **kwargs) ->  Tuple[np.array, np.array]:
+    """
+    reads an experiment's csv file, returns the cell loci and times of deaths
+    :param exp_full_path:
+    :return: Tuple[np.array, np.array] - cells_loci, cells_times_of_death manipulated by the sliding window - cells that die in 5 minutes are considered dead in the first 10 minutes
+    """
+    if not sliding_window_in_minute:
+        raise ValueError('sliding_window_in_minute must be True')
+    else:
+        max_time = cells_times_of_death.max()
+        cells_times_of_death = round_up_to_multiple(cells_times_of_death, sliding_window_size)
+
+    return cells_times_of_death
 
 def kl_divergence(p: np.array, q: np.asarray) -> np.ndarray:
     """

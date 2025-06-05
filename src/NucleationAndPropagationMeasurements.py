@@ -7,13 +7,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from enum import IntEnum, unique
-from utils import *
+from src.utils import *
 from global_parameters import *
 from Visualization import *
 sys.path.append("/home/esraan/CellDeathSpreading/code/")
-from utils import read_experiment_cell_xy_and_death_times, get_exp_treatment_type_and_temporal_resolution, get_experiment_cell_death_times_by_specific_siliding_window
-from code.uSpiCalc import uSpiCalc
-from code.SegregationIdx import SegregationIdx
+from src.utils import read_experiment_cell_xy_and_death_times, get_exp_treatment_type_and_temporal_resolution, get_experiment_cell_death_times_by_specific_siliding_window
+from src.uSpiCalc import uSpiCalc
+from src.SegregationIdx import SegregationIdx
 
 
 @unique

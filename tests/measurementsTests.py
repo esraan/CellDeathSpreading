@@ -1,8 +1,8 @@
 import os
 import numpy as np
 import unittest
-from code.NucleationAndPropagationMeasurements import *
-from utils import *
+from src.NucleationAndPropagationMeasurements import *
+from src.utils import *
 
 
 DECIMAL_POINT_PLACES_TO_ASSERT = 8

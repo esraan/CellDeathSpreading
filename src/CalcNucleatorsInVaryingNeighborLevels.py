@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 
 from NucleatorsProbabilities import *
-from utils import *
+from src.utils import *
 from global_parameters import *
 from Visualization import *
 from scipy.stats import wilcoxon, kruskal, mannwhitneyu

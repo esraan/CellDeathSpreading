@@ -8,8 +8,8 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from scipy.spatial import Voronoi
 sys.path.append("/home/esraan/CellDeathSpreading/code/")
-from utils import read_experiment_cell_xy_and_death_times
-from code.SpiCalc import SpiCalc
+from src.utils import read_experiment_cell_xy_and_death_times
+from src.SpiCalc import SpiCalc
 
 class mSpiCalc(SpiCalc):
     """ Median-based SPI calculation"""

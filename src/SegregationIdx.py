@@ -23,7 +23,7 @@ import math
 import numpy as np
 
 sys.path.append("/home/esraan/CellDeathSpreading/code/")
-from code.SpiCalc import SpiCalc
+from src.SpiCalc import SpiCalc
 
 class SegregationIdx:
     def __init__(self, XY: np.ndarray, 

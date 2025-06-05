@@ -7,7 +7,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from global_parameters import *
-from utils import *
+from src.utils import *
 
 
 # todo: add documentation to all functions

@@ -8,10 +8,14 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from scipy.spatial import Voronoi
 sys.path.append("/home/esraan/CellDeathSpreading/code/")
-from utils import read_experiment_cell_xy_and_death_times
-from code.SpiCalc import SpiCalc
+from src.utils import read_experiment_cell_xy_and_death_times
+from src.SpiCalc import SpiCalc
 
 class CompuSpiCalc(SpiCalc):
+    """
+    this class calculate the spi with mean of deltaTOD per cell nieghborhood- 
+    instead of calculating all cell- pairs deltaTOD and then mean, it calculate per each cell it's mean over deltaTOD from it's specefic nieghborhood
+    """
     # die_times must be in frames number, dist_threshold is assumed to be in micron
     def __init__(self, XY, die_times, temporal_resolution, n_scramble=1000,
                  dist_threshold=100, **kwargs):
