@@ -10,7 +10,7 @@ from scipy.spatial import Voronoi
 from sklearn.preprocessing import LabelEncoder
 sys.path.append("/home/esraan/CellDeathSpreading/code/")
 from utils import read_experiment_cell_xy_and_death_times
-from QuantificationScripts.SpiCalc import SpiCalc
+from code.SpiCalc import SpiCalc
 
 class mixSpiCalc(SpiCalc):
     # die_times must be in frames number, dist_threshold is assumed to be in micron

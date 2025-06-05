@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import unittest
-from QuantificationScripts.NucleationAndPropagationMeasurements import *
+from code.NucleationAndPropagationMeasurements import *
 from utils import *
 
 

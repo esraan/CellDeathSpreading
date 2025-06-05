@@ -12,8 +12,8 @@ from global_parameters import *
 from Visualization import *
 sys.path.append("/home/esraan/CellDeathSpreading/code/")
 from utils import read_experiment_cell_xy_and_death_times, get_exp_treatment_type_and_temporal_resolution, get_experiment_cell_death_times_by_specific_siliding_window
-from QuantificationScripts.uSpiCalc import uSpiCalc
-from QuantificationScripts.SegregationIdx import SegregationIdx
+from code.uSpiCalc import uSpiCalc
+from code.SegregationIdx import SegregationIdx
 
 
 @unique

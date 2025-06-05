@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from scipy.spatial import Voronoi
 sys.path.append("/home/esraan/CellDeathSpreading/code/")
 from utils import read_experiment_cell_xy_and_death_times
-from QuantificationScripts.SpiCalc import SpiCalc
+from code.SpiCalc import SpiCalc
 
 class CompuSpiCalc(SpiCalc):
     # die_times must be in frames number, dist_threshold is assumed to be in micron
