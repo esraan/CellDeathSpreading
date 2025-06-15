@@ -10,7 +10,7 @@ from enum import IntEnum, unique
 from src.utils import *
 from global_parameters import *
 from Visualization import *
-sys.path.append("/home/esraan/CellDeathSpreading/code/")
+sys.path.append("/home/esraan/CellDeathSpreading/src/")
 from src.utils import read_experiment_cell_xy_and_death_times, get_exp_treatment_type_and_temporal_resolution, get_experiment_cell_death_times_by_specific_siliding_window
 from src.uSpiCalc import uSpiCalc
 from src.SegregationIdx import SegregationIdx

@@ -22,11 +22,12 @@ from matplotlib.collections import EllipseCollection,CircleCollection,PatchColle
 import math
 import numpy as np
 
-sys.path.append("/home/esraan/CellDeathSpreading/code/")
-from src.SpiCalc import SpiCalc
+sys.path.append("/home/esraan/CellDeathSpreading/src/")
+from src.quanta_utils import get_neighbors
 
 class SegregationIdx:
-    def __init__(self, XY: np.ndarray, 
+    def __init__(self,
+                XY: np.ndarray, 
                 death_modes: np.ndarray,
                 num_permutations : int = 1000, 
                 dist_threshold: Union[int, float] = 100,
@@ -68,14 +69,14 @@ class SegregationIdx:
         self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = [], [], []
         if filter_neighbors_by_distance: 
             if self.filter_neighbors_by_level:
-                self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = SpiCalc.get_neighbors(self.XY, self.dist_threshold, True, neighbors_level)
+                self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = get_neighbors(self.XY, self.dist_threshold, True, neighbors_level)
             else:
-                self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = SpiCalc.get_neighbors(self.XY, self.dist_threshold, True, 3)
+                self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = get_neighbors(self.XY, self.dist_threshold, True, 3)
         elif self.filter_neighbors_by_level:
             if not filter_neighbors_by_distance:
-                self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = SpiCalc.get_neighbors(self.XY, self.dist_threshold, False, neighbors_level)
+                self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = get_neighbors(self.XY, self.dist_threshold, False, neighbors_level)
         else:
-            self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = SpiCalc.get_neighbors(self.XY, self.dist_threshold, False, 3)
+            self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = get_neighbors(self.XY, self.dist_threshold, False, 3)
         #TODO: adjust the nighbors_to_include
         self.segregation_index = self.calculate_segregation_index(XY= self.XY,
                                                             neighbors_to_include=self.neighbors_level_1,
@@ -214,7 +215,7 @@ class SegregationIdx:
                 circle = Point(X, Y).buffer(dist_threshold)
             # Intersect the circle with the area boundary
                 effective_area = circle.intersection(area_polygon).area
-                all_cells_in_the_radious_for_specific_cell = list(filter(lambda cordination_other: True if SpiCalc.get_real_distance((X,Y),cordination_other)<dist_threshold else False,XY))
+                all_cells_in_the_radious_for_specific_cell = list(filter(lambda cordination_other: True if get_real_distance((X,Y),cordination_other)<dist_threshold else False,XY))
                 count = len(all_cells_in_the_radious_for_specific_cell)
                 if effective_area <= 0:
                     print("effective_area", effective_area)

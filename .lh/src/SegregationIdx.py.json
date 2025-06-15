@@ -3,11 +3,47 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 9,
             "patches": [
                 {
                     "date": 1749149050356,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1749149213043,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,10 +20,8 @@\n import numpy as np\n from matplotlib.collections import EllipseCollection,CircleCollection,PatchCollection\n import math\n import numpy as np\n-\n-sys.path.append(\"/home/esraan/CellDeathSpreading/code/\")\n from src.SpiCalc import SpiCalc\n \n class SegregationIdx:\n     def __init__(self, XY: np.ndarray, \n"
+                },
+                {
+                    "date": 1749149252096,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n from matplotlib import pyplot as plt\n from scipy.stats import pearsonr\n import math\n import copy\n-from shapely.geometry import Point, Polygon\n+# from shapely.geometry import Point, Polygon\n import numpy as np\n from matplotlib.collections import EllipseCollection,CircleCollection,PatchCollection\n import math\n import numpy as np\n"
+                },
+                {
+                    "date": 1749149266474,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,13 +15,15 @@\n from matplotlib import pyplot as plt\n from scipy.stats import pearsonr\n import math\n import copy\n-# from shapely.geometry import Point, Polygon\n+from shapely.geometry import Point, Polygon\n import numpy as np\n from matplotlib.collections import EllipseCollection,CircleCollection,PatchCollection\n import math\n import numpy as np\n+\n+sys.path.append(\"/home/esraan/CellDeathSpreading/code/\")\n from src.SpiCalc import SpiCalc\n \n class SegregationIdx:\n     def __init__(self, XY: np.ndarray, \n"
+                },
+                {
+                    "date": 1749149271925,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,9 @@\n from matplotlib.collections import EllipseCollection,CircleCollection,PatchCollection\n import math\n import numpy as np\n \n-sys.path.append(\"/home/esraan/CellDeathSpreading/code/\")\n+sys.path.append(\"/home/esraan/CellDeathSpreading/src/\")\n from src.SpiCalc import SpiCalc\n \n class SegregationIdx:\n     def __init__(self, XY: np.ndarray, \n"
+                },
+                {
+                    "date": 1749149809354,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,9 @@\n import math\n import numpy as np\n \n sys.path.append(\"/home/esraan/CellDeathSpreading/src/\")\n-from src.SpiCalc import SpiCalc\n+from src.quanta_utils import SpiCalc\n \n class SegregationIdx:\n     def __init__(self, XY: np.ndarray, \n                 death_modes: np.ndarray,\n"
+                },
+                {
+                    "date": 1749149826525,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,9 @@\n import math\n import numpy as np\n \n sys.path.append(\"/home/esraan/CellDeathSpreading/src/\")\n-from src.quanta_utils import SpiCalc\n+from src.quanta_utils import \n \n class SegregationIdx:\n     def __init__(self, XY: np.ndarray, \n                 death_modes: np.ndarray,\n@@ -72,9 +72,9 @@\n             else:\n                 self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = SpiCalc.get_neighbors(self.XY, self.dist_threshold, True, 3)\n         elif self.filter_neighbors_by_level:\n             if not filter_neighbors_by_distance:\n-                self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = SpiCalc.get_neighbors(self.XY, self.dist_threshold, False, neighbors_level)\n+                self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = get_neighbors(self.XY, self.dist_threshold, False, neighbors_level)\n         else:\n             self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = SpiCalc.get_neighbors(self.XY, self.dist_threshold, False, 3)\n         #TODO: adjust the nighbors_to_include\n         self.segregation_index = self.calculate_segregation_index(XY= self.XY,\n"
+                },
+                {
+                    "date": 1749149833428,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -67,16 +67,16 @@\n         self.neighbors_level = neighbors_level\n         self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = [], [], []\n         if filter_neighbors_by_distance: \n             if self.filter_neighbors_by_level:\n-                self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = SpiCalc.get_neighbors(self.XY, self.dist_threshold, True, neighbors_level)\n+                self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = get_neighbors(self.XY, self.dist_threshold, True, neighbors_level)\n             else:\n-                self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = SpiCalc.get_neighbors(self.XY, self.dist_threshold, True, 3)\n+                self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = get_neighbors(self.XY, self.dist_threshold, True, 3)\n         elif self.filter_neighbors_by_level:\n             if not filter_neighbors_by_distance:\n                 self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = get_neighbors(self.XY, self.dist_threshold, False, neighbors_level)\n         else:\n-            self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = SpiCalc.get_neighbors(self.XY, self.dist_threshold, False, 3)\n+            self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = get_neighbors(self.XY, self.dist_threshold, False, 3)\n         #TODO: adjust the nighbors_to_include\n         self.segregation_index = self.calculate_segregation_index(XY= self.XY,\n                                                             neighbors_to_include=self.neighbors_level_1,\n                                                             labels=self.death_modes,\n"
+                },
+                {
+                    "date": 1749149852042,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,9 @@\n import math\n import numpy as np\n \n sys.path.append(\"/home/esraan/CellDeathSpreading/src/\")\n-from src.quanta_utils import \n+from src.quanta_utils import get_neighbors\n \n class SegregationIdx:\n     def __init__(self, XY: np.ndarray, \n                 death_modes: np.ndarray,\n@@ -213,9 +213,9 @@\n             for X,Y in XY:\n                 circle = Point(X, Y).buffer(dist_threshold)\n             # Intersect the circle with the area boundary\n                 effective_area = circle.intersection(area_polygon).area\n-                all_cells_in_the_radious_for_specific_cell = list(filter(lambda cordination_other: True if SpiCalc.get_real_distance((X,Y),cordination_other)<dist_threshold else False,XY))\n+                all_cells_in_the_radious_for_specific_cell = list(filter(lambda cordination_other: True if get_real_distance((X,Y),cordination_other)<dist_threshold else False,XY))\n                 count = len(all_cells_in_the_radious_for_specific_cell)\n                 if effective_area <= 0:\n                     print(\"effective_area\", effective_area)\n                 all_cells_local_density_measurment_normalized.append(count/ effective_area if effective_area > 0 else 0)\n"
+                },
+                {
+                    "date": 1749150207883,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,9 +25,10 @@\n sys.path.append(\"/home/esraan/CellDeathSpreading/src/\")\n from src.quanta_utils import get_neighbors\n \n class SegregationIdx:\n-    def __init__(self, XY: np.ndarray, \n+    def __init__(self,\n+                  XY: np.ndarray, \n                 death_modes: np.ndarray,\n                 num_permutations : int = 1000, \n                 dist_threshold: Union[int, float] = 100,\n                 filter_neighbors_by_distance: bool = True,\n"
                 }
             ],
             "date": 1749149050356,

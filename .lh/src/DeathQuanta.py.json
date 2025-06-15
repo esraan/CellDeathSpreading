@@ -1,0 +1,110 @@
+{
+    "sourceFile": "src/DeathQuanta.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 23,
+            "patches": [
+                {
+                    "date": 1749150164175,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1749150169494,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,1 +1,2 @@\n \n+class \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1749150176617,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,2 +1,3 @@\n \n-class \n\\ No newline at end of file\n+class DeathQuanta:\n+    \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1749150182662,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,3 +1,4 @@\n \n class DeathQuanta:\n-    \n\\ No newline at end of file\n+    def __init__(self) -> None:\n+        pass\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1749150388310,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,13 @@\n \n class DeathQuanta:\n-    def __init__(self) -> None:\n-        pass\n\\ No newline at end of file\n+    def __init__(self\n+                XY: np.ndarray, \n+                death_modes: np.ndarray,\n+                num_permutations : int = 1000, \n+                dist_threshold: Union[int, float] = 100,\n+                filter_neighbors_by_distance: bool = True,\n+                neighbors_level: int = 1,\n+                **kwargs\n+                ):  -> None:\n+        \n+    \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1749150398772,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,13 +1,13 @@\n \n class DeathQuanta:\n-    def __init__(self\n+    def __init__(self,\n                 XY: np.ndarray, \n                 death_modes: np.ndarray,\n                 num_permutations : int = 1000, \n                 dist_threshold: Union[int, float] = 100,\n                 filter_neighbors_by_distance: bool = True,\n                 neighbors_level: int = 1,\n                 **kwargs\n-                ):  -> None:\n+                )-> None:\n         \n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1749150424706,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,19 @@\n-\n+import os\n+import sys\n+import shutil\n+import math\n+import warnings\n+import datetime\n+import numpy as np\n+import pandas as pd\n+import seaborn as sns\n+import matplotlib.pyplot as plt\n+from typing import *\n+from enum import Enum\n+from scipy.spatial import Voronoi\n+sys.path.append(\"/home/esraan/CellDeathSpreading/src/\")\n+from src.utils import get_experiment_cell_death_times_by_specific_siliding_window,read_experiment_cell_xy_and_death_times\n class DeathQuanta:\n     def __init__(self,\n                 XY: np.ndarray, \n                 death_modes: np.ndarray,\n"
+                },
+                {
+                    "date": 1749150436022,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,26 @@\n+import os\n+import sys\n+import shutil\n+import math\n+import warnings\n+import datetime\n+import numpy as np\n+import pandas as pd\n+import seaborn as sns\n+import matplotlib.pyplot as plt\n+from typing import *\n+from enum import Enum\n+from scipy.spatial import Voronoi\n+sys.path.append(\"/home/esraan/CellDeathSpreading/src/\")\n+from src.utils import get_experiment_cell_death_times_by_specific_siliding_window,read_experiment_cell_xy_and_death_times\n+class DeathQuanta:\n+    def __init__(self,\n+                XY: np.ndarray, \n+                death_modes: np.ndarray,\n+                dist_threshold: Union[int, float] = 100,\n+                filter_neighbors_by_distance: bool = True,\n+                neighbors_level: int = 1,\n+                **kwargs\n+                )-> None:\n+        \n+    \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1749150448386,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,38 +16,11 @@\n class DeathQuanta:\n     def __init__(self,\n                 XY: np.ndarray, \n                 death_modes: np.ndarray,\n-                dist_threshold: Union[int, float] = 100,\n+                dist_threshold: Union[int, float] = 33,\n                 filter_neighbors_by_distance: bool = True,\n                 neighbors_level: int = 1,\n                 **kwargs\n                 )-> None:\n         \n-    \n-import os\n-import sys\n-import shutil\n-import math\n-import warnings\n-import datetime\n-import numpy as np\n-import pandas as pd\n-import seaborn as sns\n-import matplotlib.pyplot as plt\n-from typing import *\n-from enum import Enum\n-from scipy.spatial import Voronoi\n-sys.path.append(\"/home/esraan/CellDeathSpreading/src/\")\n-from src.utils import get_experiment_cell_death_times_by_specific_siliding_window,read_experiment_cell_xy_and_death_times\n-class DeathQuanta:\n-    def __init__(self,\n-                XY: np.ndarray, \n-                death_modes: np.ndarray,\n-                num_permutations : int = 1000, \n-                dist_threshold: Union[int, float] = 100,\n-                filter_neighbors_by_distance: bool = True,\n-                neighbors_level: int = 1,\n-                **kwargs\n-                )-> None:\n-        \n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1749150465217,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,11 +16,11 @@\n class DeathQuanta:\n     def __init__(self,\n                 XY: np.ndarray, \n                 death_modes: np.ndarray,\n-                dist_threshold: Union[int, float] = 33,\n+                dist_threshold: Union[int, float] = 50,\n                 filter_neighbors_by_distance: bool = True,\n                 neighbors_level: int = 1,\n                 **kwargs\n                 )-> None:\n-        \n+        self.\n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1749150501096,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,8 +15,9 @@\n from src.utils import get_experiment_cell_death_times_by_specific_siliding_window,read_experiment_cell_xy_and_death_times\n class DeathQuanta:\n     def __init__(self,\n                 XY: np.ndarray, \n+                \n                 death_modes: np.ndarray,\n                 dist_threshold: Union[int, float] = 50,\n                 filter_neighbors_by_distance: bool = True,\n                 neighbors_level: int = 1,\n"
+                },
+                {
+                    "date": 1749150511030,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n from src.utils import get_experiment_cell_death_times_by_specific_siliding_window,read_experiment_cell_xy_and_death_times\n class DeathQuanta:\n     def __init__(self,\n                 XY: np.ndarray, \n-                \n+                die_times,\n                 death_modes: np.ndarray,\n                 dist_threshold: Union[int, float] = 50,\n                 filter_neighbors_by_distance: bool = True,\n                 neighbors_level: int = 1,\n"
+                },
+                {
+                    "date": 1749150542517,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n from src.utils import get_experiment_cell_death_times_by_specific_siliding_window,read_experiment_cell_xy_and_death_times\n class DeathQuanta:\n     def __init__(self,\n                 XY: np.ndarray, \n-                die_times,\n+                die_timesnp.ndarray,\n                 death_modes: np.ndarray,\n                 dist_threshold: Union[int, float] = 50,\n                 filter_neighbors_by_distance: bool = True,\n                 neighbors_level: int = 1,\n"
+                },
+                {
+                    "date": 1749150563695,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n from src.utils import get_experiment_cell_death_times_by_specific_siliding_window,read_experiment_cell_xy_and_death_times\n class DeathQuanta:\n     def __init__(self,\n                 XY: np.ndarray, \n-                die_timesnp.ndarray,\n+                death: np.ndarray,\n                 death_modes: np.ndarray,\n                 dist_threshold: Union[int, float] = 50,\n                 filter_neighbors_by_distance: bool = True,\n                 neighbors_level: int = 1,\n"
+                },
+                {
+                    "date": 1749150575199,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,10 +14,10 @@\n sys.path.append(\"/home/esraan/CellDeathSpreading/src/\")\n from src.utils import get_experiment_cell_death_times_by_specific_siliding_window,read_experiment_cell_xy_and_death_times\n class DeathQuanta:\n     def __init__(self,\n-                XY: np.ndarray, \n-                death: np.ndarray,\n+                cells: np.ndarray, \n+                death_time: np.ndarray,\n                 death_modes: np.ndarray,\n                 dist_threshold: Union[int, float] = 50,\n                 filter_neighbors_by_distance: bool = True,\n                 neighbors_level: int = 1,\n"
+                },
+                {
+                    "date": 1749150587823,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,14 +14,14 @@\n sys.path.append(\"/home/esraan/CellDeathSpreading/src/\")\n from src.utils import get_experiment_cell_death_times_by_specific_siliding_window,read_experiment_cell_xy_and_death_times\n class DeathQuanta:\n     def __init__(self,\n-                cells: np.ndarray, \n+                cells_xy: np.ndarray, \n                 death_time: np.ndarray,\n                 death_modes: np.ndarray,\n                 dist_threshold: Union[int, float] = 50,\n                 filter_neighbors_by_distance: bool = True,\n                 neighbors_level: int = 1,\n                 **kwargs\n                 )-> None:\n-        self.\n+        self.xy\n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1749150594481,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,6 +22,6 @@\n                 filter_neighbors_by_distance: bool = True,\n                 neighbors_level: int = 1,\n                 **kwargs\n                 )-> None:\n-        self.xy\n+        self.cells_xy = \n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1749150600033,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,6 +22,7 @@\n                 filter_neighbors_by_distance: bool = True,\n                 neighbors_level: int = 1,\n                 **kwargs\n                 )-> None:\n-        self.cells_xy = \n+        self.cells_xy = cells_xy\n+        self.\n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1749150606683,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,6 +23,6 @@\n                 neighbors_level: int = 1,\n                 **kwargs\n                 )-> None:\n         self.cells_xy = cells_xy\n-        self.\n+        self.death\n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1749150713095,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,8 +10,9 @@\n import matplotlib.pyplot as plt\n from typing import *\n from enum import Enum\n from scipy.spatial import Voronoi\n+from sklearn.preprocessing import LabelEncoder\n sys.path.append(\"/home/esraan/CellDeathSpreading/src/\")\n from src.utils import get_experiment_cell_death_times_by_specific_siliding_window,read_experiment_cell_xy_and_death_times\n class DeathQuanta:\n     def __init__(self,\n@@ -23,6 +24,6 @@\n                 neighbors_level: int = 1,\n                 **kwargs\n                 )-> None:\n         self.cells_xy = cells_xy\n-        self.death\n+        self.death_\n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1749150720479,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,6 +24,6 @@\n                 neighbors_level: int = 1,\n                 **kwargs\n                 )-> None:\n         self.cells_xy = cells_xy\n-        self.death_\n+        self.death_modes = \n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1749150728946,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,6 +24,7 @@\n                 neighbors_level: int = 1,\n                 **kwargs\n                 )-> None:\n         self.cells_xy = cells_xy\n+        self\n         self.death_modes = \n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1749150768860,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,6 +25,6 @@\n                 **kwargs\n                 )-> None:\n         self.cells_xy = cells_xy\n         self.le = LabelEncoder()\n-        self.death_modes = sef.\n+        self.death_modes = sef\n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1749150786802,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,8 +24,8 @@\n                 neighbors_level: int = 1,\n                 **kwargs\n                 )-> None:\n         self.cells_xy = cells_xy\n-        \n+        s\n         self.le = LabelEncoder()\n         self.death_modes = self.le.fit_transform(death_modes)\n     \n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1749150164175,
+            "name": "Commit-0",
+            "content": "\n"
+        }
+    ]
+}
