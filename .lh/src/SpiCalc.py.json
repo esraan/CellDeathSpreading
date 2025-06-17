@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 8,
             "patches": [
                 {
                     "date": 1749113493894,
@@ -12,6 +12,34 @@
                 {
                     "date": 1749149297692,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n import os\n import numpy as np\n from scipy.spatial import Voronoi\n from abc import ABC , abstractmethod\n-sys.path.append(\"/home/esraan/CellDeathSpreading/code/\")\n+sys.path.append(\"/home/esraan/CellDeathSpreading/src/\")\n from src.utils import get_experiment_cell_death_times_by_specific_siliding_window\n \n class SpiCalc(ABC):\n     def __init__(self, XY, die_times, temporal_resolution, n_scramble=1000,\n"
+                },
+                {
+                    "date": 1750011529971,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -146,9 +146,9 @@\n                 neighbors_level1 = self.neighbors_list\n                 neighbors_level2 = self.neighbors_list2\n                 neighbors_level3 = self.neighbors_list3\n             for idx in range(self.n_instances):\n-                time_diff_from_nighbors_list.extend([abs(times[idx] - times[neighbor]) for neighbor in neighbors_level1[idx]])\n+                time_diff_from_nighbors_list.extend([abs(times[idx] - times[neighbor]) for neighbor in n])\n                 if self.filter_neighbors_by_level==1:\n                     continue\n                 time_diff_from_nighbors_list.extend([abs(times[idx] - times[neighbor]) for neighbor in neighbors_level2[idx]])\n                 if self.filter_neighbors_by_level==2:\n"
+                },
+                {
+                    "date": 1750012249138,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -147,9 +147,9 @@\n                 neighbors_level2 = self.neighbors_list2\n                 neighbors_level3 = self.neighbors_list3\n             for idx in range(self.n_instances):\n                 time_diff_from_nighbors_list.extend([abs(times[idx] - times[neighbor]) for neighbor in n])\n-                if self.filter_neighbors_by_level==1:\n+                if self.filter_lenneighbors_by_level==1:\n                     continue\n                 time_diff_from_nighbors_list.extend([abs(times[idx] - times[neighbor]) for neighbor in neighbors_level2[idx]])\n                 if self.filter_neighbors_by_level==2:\n                     continue\n"
+                },
+                {
+                    "date": 1750012273645,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -146,10 +146,10 @@\n                 neighbors_level1 = self.neighbors_list\n                 neighbors_level2 = self.neighbors_list2\n                 neighbors_level3 = self.neighbors_list3\n             for idx in range(self.n_instances):\n-                time_diff_from_nighbors_list.extend([abs(times[idx] - times[neighbor]) for neighbor in n])\n-                if self.filter_lenneighbors_by_level==1:\n+                time_diff_from_nighbors_list.extend([abs(times[idx] - times[neighbor]) for neighbor in neighbors_level1[idx]])\n+                if self.filter_neighbors_by_level==1:\n                     continue\n                 time_diff_from_nighbors_list.extend([abs(times[idx] - times[neighbor]) for neighbor in neighbors_level2[idx]])\n                 if self.filter_neighbors_by_level==2:\n                     continue\n"
+                },
+                {
+                    "date": 1750060541291,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -228,5 +228,7 @@\n         pass\n \n     @abstractmethod\n     def calc_stat(self, dist_for_calc):\n-        pass\n\\ No newline at end of file\n+        pass\n+\n+    \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1750060548543,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -230,5 +230,5 @@\n     @abstractmethod\n     def calc_stat(self, dist_for_calc):\n         pass\n \n-    \n\\ No newline at end of file\n+    def noramlize\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1750060573647,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -230,5 +230,5 @@\n     @abstractmethod\n     def calc_stat(self, dist_for_calc):\n         pass\n \n-    def noramlize\n\\ No newline at end of file\n+    def noramlize_stat\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1750060902862,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -228,7 +228,5 @@\n         pass\n \n     @abstractmethod\n     def calc_stat(self, dist_for_calc):\n-        pass\n-\n-    def noramlize_stat\n\\ No newline at end of file\n+        pass\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1749113493894,

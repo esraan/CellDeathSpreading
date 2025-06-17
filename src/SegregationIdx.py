@@ -23,7 +23,7 @@ import math
 import numpy as np
 
 sys.path.append("/home/esraan/CellDeathSpreading/src/")
-from src.quanta_utils import get_neighbors
+from src.quanta_utils import get_neighbors,get_real_distance
 
 class SegregationIdx:
     def __init__(self,

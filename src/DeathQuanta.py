@@ -21,41 +21,123 @@ class DeathQuanta:
     def __init__(self,
                 cells_xy: np.ndarray, 
                 death_times: np.ndarray,
-                death_modes: Union[np.ndarray,list] = [],
+                death_modes: Union[np.ndarray,list] = None,
                 dist_threshold: Union[int, float] = 50,
                 filter_neighbors_by_distance: bool = True,
                 neighbors_level: int = 1,
                 **kwargs
                 )-> None:
-        sorted_indices = np.argsort(np.concatenate(death_times))
+        try:
+            sorted_indices = np.argsort(np.concatenate(death_times))
+            flag = False
+        except Exception as e:
+            flag = True
+            sorted_indices = np.argsort(death_times)
         self.death_times = death_times[sorted_indices]
         self.cells_xy = cells_xy[sorted_indices]
-        self.death_modes = np.concatenate(death_modes[sorted_indices]) if len(death_modes) !=0 else []
         self.dist_threshold = dist_threshold
         self.le = LabelEncoder()
         self.filter_neighbors_by_distance = filter_neighbors_by_distance
         self.neighbors_level = neighbors_level
         self._init_other_attr(**kwargs)
+        if not flag:
+            self.death_modes = np.concatenate(death_modes[sorted_indices]) if death_modes is not None else np.array([self.pure_type] * len(self.cells_xy))
+        else:
+            self.death_modes = death_modes[sorted_indices] if death_modes is not None else np.array([self.pure_type] * len(self.cells_xy))
+        if self.normalize:
+            self.death_times = self._normalize_death_times(self.death_times, kwargs.get('n_type', 'median_and_percentile_range'))
         self.death_modes = self.le.fit_transform(self.death_modes)
+        self.nieghbors_levels_init(neighbors_level)
+    
+    def nieghbors_levels_init(self, neighbors_level):
+        """
+        Initialize neighbors based on the distance threshold and level.
+        This method sets up the neighbors for each cell based on the specified distance threshold and level.
+        """
         if self.filter_neighbors_by_distance: 
             if self.filter_neighbors_by_level:
                 self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = get_neighbors(self.cells_xy, self.dist_threshold, True, neighbors_level)
             else:
                 self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = get_neighbors(self.cells_xy, self.dist_threshold, True, 3)
         elif self.filter_neighbors_by_level:
-            if not filter_neighbors_by_distance:
+            if not self.filter_neighbors_by_distance:
                 self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = get_neighbors(self.cells_xy, self.dist_threshold, False, neighbors_level)
         else:
             self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = get_neighbors(self.cells_xy, self.dist_threshold, False, 3)
     
     def _init_other_attr(self, **kwargs):
-        self.filter_neighbors_by_level = kwargs.get("filter_neighbors_by_level", 1)
-        if isinstance(self.death_modes, list):
-            if len(self.death_modes) == 0:
-                self.death_modes = [kwargs.get('pure_type', 'necrosis')] * len(self.cells_xy)
-                self.pure_type = kwargs.get('pure_type', 'necrosis')
+        self.filter_neighbors_by_level = kwargs.get("filter_neighbors_by_level", True)
+        self.pure_type = kwargs.get('pure_type', 'necrosis')
         self.n_scramble = kwargs.get('n_scramble', 1000)
+        self.normalize = True if kwargs.get('normalize', True) else False
 
+    def _normalize_death_times(self, death_times, n_type='median_and_percentile_range'):
+        """
+        Normalize death times to the range [0, 1].
+        Args:
+            death_times (np.ndarray): Array of death times.
+        n_type (str): Normalization type, can be 'median_and_percentile_range' or 'median_and_iqr'.
+        Returns:
+            np.ndarray: Normalized death times.
+        """
+        # death_times_norm = death_times.copy()
+        # for mode in np.unique(self.death_modes):
+        #     mask = self.death_modes == mode
+        #     mode_death_times = death_times[mask]
+        #     if n_type == 'median_and_percentile_range':
+        #         lower, upper = 5, 95
+        #         median_time = np.median(mode_death_times)
+        #         p_low, p_high = np.percentile(mode_death_times, [lower, upper])
+        #         duration = p_high - p_low
+        #         scale = duration if duration != 0 else 0.000000001  # avoid division by zero
+        #         death_times_norm[mask] = (mode_death_times - median_time) / scale
+        #     elif n_type == 'median_and_iqr':
+        #         median_time = np.median(mode_death_times)
+        #         q1, q3 = np.percentile(mode_death_times, [25, 75])
+        #         iqr = q3 - q1
+        #         scale = iqr if iqr != 0 else 0.000000001
+        #         death_times_norm[mask] = (mode_death_times - median_time) / scale
+        #     elif n_type == 'onset_and_duration':
+        #         lower, upper = 5, 95
+        #         p_low, p_high = np.percentile(mode_death_times, [lower, upper])
+        #         duration = p_high - p_low
+        #         scale = duration if duration != 0 else 0.000000001  # avoid division by zero
+        #         death_times_norm[mask] = (mode_death_times - p_low) / scale
+        #     else:
+        #         raise ValueError("Normalization type must be 'median_and_percentile_range', 'median_and_iqr', or 'onset_and_duration'.")
+        # return death_times_norm
+        
+        death_times_norm = death_times.copy()
+        if n_type == 'median_and_percentile_range':
+            lower, upper = 5, 95
+            median_time = np.median(death_times)
+            p_low, p_high = np.percentile(death_times, [lower, upper])
+            # death_times = np.clip(death_times, p_low, p_high)
+            duration = p_high - p_low
+            scale = duration if duration != 0 else 0.000000001  # avoid division by zero
+            death_times_norm = (death_times - median_time) / scale
+        elif n_type == 'median_and_iqr':
+            median_time = np.median(death_times)
+            q1, q3 = np.percentile(death_times, [25, 75])
+            iqr = q3 - q1
+            scale = iqr if iqr != 0 else 0.000000001
+            death_times_norm = (death_times - median_time) / scale
+        elif n_type == 'onset_and_duration':
+            lower, upper = 5, 95
+            p_low, p_high = np.percentile(death_times, [lower, upper])
+            # death_times = np.clip(death_times, p_low, p_high)
+            duration = p_low - p_high
+            scale = duration if duration != 0 else 0.000000001  # avoid division by zero
+            death_times_norm = (death_times ) / scale # (min(death_times) - death_times) / scale
+        elif n_type == 'onset_and_iqr':
+            q1, q3 = np.percentile(death_times, [25, 75])
+            iqr = q3 - q1
+            scale = iqr if iqr != 0 else 0.000000001
+            death_times_norm = (death_times) / scale
+        else:
+            raise ValueError("Normalization type must be 'median_and_percentile_range' or 'median_and_iqr'.")
+        return death_times_norm
+    
     def find_nucleator(self, level):
         nuc_blobs_identifier = {}
         set_of_all_cells = set()

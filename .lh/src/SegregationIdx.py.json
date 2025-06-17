@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 9,
+            "activePatchIndex": 10,
             "patches": [
                 {
                     "date": 1749149050356,
@@ -44,6 +44,10 @@
                 {
                     "date": 1749150207883,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,9 +25,10 @@\n sys.path.append(\"/home/esraan/CellDeathSpreading/src/\")\n from src.quanta_utils import get_neighbors\n \n class SegregationIdx:\n-    def __init__(self, XY: np.ndarray, \n+    def __init__(self,\n+                  XY: np.ndarray, \n                 death_modes: np.ndarray,\n                 num_permutations : int = 1000, \n                 dist_threshold: Union[int, float] = 100,\n                 filter_neighbors_by_distance: bool = True,\n"
+                },
+                {
+                    "date": 1750067836383,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,13 +22,13 @@\n import math\n import numpy as np\n \n sys.path.append(\"/home/esraan/CellDeathSpreading/src/\")\n-from src.quanta_utils import get_neighbors\n+from src.quanta_utils import get_neighbors,get_real_distance\n \n class SegregationIdx:\n     def __init__(self,\n-                  XY: np.ndarray, \n+                XY: np.ndarray, \n                 death_modes: np.ndarray,\n                 num_permutations : int = 1000, \n                 dist_threshold: Union[int, float] = 100,\n                 filter_neighbors_by_distance: bool = True,\n"
                 }
             ],
             "date": 1749149050356,
