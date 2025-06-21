@@ -82,3 +82,83 @@ def get_time_difference(death_times, cell1_idx, cell2_idx):
         int, float: time difference in seconds
     """
     return abs(death_times[cell1_idx] - death_times[cell2_idx])
+
+def normalize_death_times(death_times, n_type='median_and_percentile_range'):
+        """
+        Normalize death times to the range [0, 1].
+        Args:
+            death_times (np.ndarray): Array of death times.
+        n_type (str): Normalization type, can be 'median_and_percentile_range' or 'median_and_iqr'.
+        Returns:
+            np.ndarray: Normalized death times.
+        """
+        # death_times_norm = death_times.copy()
+        # for mode in np.unique(self.death_modes):
+        #     mask = self.death_modes == mode
+        #     mode_death_times = death_times[mask]
+        #     if n_type == 'median_and_percentile_range':
+        #         lower, upper = 5, 95
+        #         median_time = np.median(mode_death_times)
+        #         p_low, p_high = np.percentile(mode_death_times, [lower, upper])
+        #         duration = p_high - p_low
+        #         scale = duration if duration != 0 else 0.000000001  # avoid division by zero
+        #         death_times_norm[mask] = (mode_death_times - median_time) / scale
+        #     elif n_type == 'median_and_iqr':
+        #         median_time = np.median(mode_death_times)
+        #         q1, q3 = np.percentile(mode_death_times, [25, 75])
+        #         iqr = q3 - q1
+        #         scale = iqr if iqr != 0 else 0.000000001
+        #         death_times_norm[mask] = (mode_death_times - median_time) / scale
+        #     elif n_type == 'onset_and_duration':
+        #         lower, upper = 5, 95
+        #         p_low, p_high = np.percentile(mode_death_times, [lower, upper])
+        #         duration = p_high - p_low
+        #         scale = duration if duration != 0 else 0.000000001  # avoid division by zero
+        #         death_times_norm[mask] = (mode_death_times - p_low) / scale
+        #     else:
+        #         raise ValueError("Normalization type must be 'median_and_percentile_range', 'median_and_iqr', or 'onset_and_duration'.")
+        # return death_times_norm
+        
+        death_times_norm = death_times.copy()
+        if n_type == 'median_and_percentile_range':
+            lower, upper = 5, 95
+            median_time = np.median(death_times)
+            p_low, p_high = np.percentile(death_times, [lower, upper])
+            # death_times = np.clip(death_times, p_low, p_high)
+            duration = p_high - p_low
+            scale = duration if duration != 0 else 0.000000001  # avoid division by zero
+            death_times_norm = (death_times - median_time) / scale
+        elif n_type == 'median_and_iqr':
+            median_time = np.median(death_times)
+            q1, q3 = np.percentile(death_times, [25, 75])
+            iqr = q3 - q1
+            scale = iqr if iqr != 0 else 0.000000001
+            death_times_norm = (death_times - median_time) / scale
+        elif n_type == 'onset_and_duration':
+            lower, upper = 2.5, 97.5
+            p_low, p_high = np.percentile(death_times, [lower, upper])
+            death_times = np.clip(death_times, p_low, p_high)
+            p_low, p_high = np.percentile(death_times, [0, 100])
+            duration = p_high - p_low
+            mean_t = np.median(death_times)
+            scale = duration if duration != 0 else 0.000000001  # avoid division by zero
+            death_times_norm = (death_times- p_low) / scale # (min(death_times) - death_times) / scale
+        elif n_type == 'onset_and_iqr':
+            lower, upper = 2.5, 97.5
+            p_low, p_high = np.percentile(death_times, [lower, upper])
+            death_times = np.clip(death_times, p_low, p_high)
+            q1, q3 = np.percentile(death_times, [25, 75])
+            iqr = q3 - q1
+            scale = iqr if iqr != 0 else 0.000000001
+            death_times_norm = (death_times - min(death_times)) / scale
+        elif n_type == 'z_score':
+            lower, upper = 2.5, 97.5
+            p_low, p_high = np.percentile(death_times, [lower, upper])
+            death_times = np.clip(death_times, p_low, p_high)
+            mean_t = np.mean(death_times)
+            std_t = np.std(death_times)
+            scale = std_t if std_t != 0 else 0.000000001
+            death_times_norm = (death_times - mean_t) / scale
+        else:
+            raise ValueError("Normalization type must be 'median_and_percentile_range' or 'median_and_iqr'.")
+        return death_times_norm
