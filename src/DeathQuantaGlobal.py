@@ -17,7 +17,7 @@ from scipy.stats import wasserstein_distance
 sys.path.append("/home/esraan/CellDeathSpreading/")
 from src.utils import get_experiment_cell_death_times_by_specific_siliding_window,read_experiment_cell_xy_and_death_times
 from src.quanta_utils import get_neighbors, get_time_difference, normalize_death_times
-from src.DeathQuanta import DeathQuanta
+from DeathQuantaABC import DeathQuanta
 
 class DeathQuantaGlobal(DeathQuanta):
     def __init__(self,
