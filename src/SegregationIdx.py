@@ -143,6 +143,7 @@ class SegregationIdx:
             for key in shuffled_seg_idx.keys():
                 permuted_si_list.get(key, []).append(shuffled_seg_idx.get(key))
         observed_seg_idx = original_seg_idx.copy()
+        self.permuted_si = permuted_si_list.copy()
         p_value = {key: np.sum(np.array(permuted_si_list.get(key, -1)) > observed_seg_idx.get(key,-1)) for key in permuted_si_list.keys()}
         self.res = {key: (observed_seg_idx.get(key), p_value.get(key,0)/kwargs.get('num_permutations', 1000), label_counts.get(key)) for key in observed_seg_idx.keys()}
         self.res = {key: (observed_seg_idx.get(key), round(p_value.get(key, 0) / kwargs.get('num_permutations', 1000), 3), label_counts.get(key)) for key in observed_seg_idx.keys()}
@@ -188,42 +189,8 @@ class SegregationIdx:
 
         return {key:np.mean(value) for key, value in cells_same_segregation_index.items()} if kwargs.get('stats_to_calculate', 'mean') == 'mean' else {key: np.median(value) for key, value in cells_same_segregation_index.items()}
   
-    @staticmethod #TODO: fixed the issue with corner and edge cells- tesing is needed
-    def get_cells_density_corrected(XY, dist_threshold, image_dim):
-        """
-        Calculate the local density of cells in a given radious.
-        Parameters
-        ----------
-        XY : np.ndarray
-            Array of shape (n_cells, 2) containing the x and y coordinates of the cells.
-        dist_threshold : Union[int, float]
-            Distance threshold for considering cells as neighbors, by default 100
-            must be in microns
-        image_dim : tuple
-            Tuple containing the dimensions of the image (x_min, x_max, y_min, y_max).
-            must be in microns
-        Returns
-        -------
-        all_cells_local_density_measurment : list
-            List of local density measurements for all cells, given specific radious.   
-        """
-        try:
-            x_min, x_max, y_min, y_max = image_dim
-            all_cells_local_density_measurment_normalized = []
-            area_polygon = Polygon([(x_min, y_min), (x_max, y_min), (x_max, y_max), (x_min, y_max)])
-            for X,Y in XY:
-                circle = Point(X, Y).buffer(dist_threshold)
-            # Intersect the circle with the area boundary
-                effective_area = circle.intersection(area_polygon).area
-                all_cells_in_the_radious_for_specific_cell = list(filter(lambda cordination_other: True if get_real_distance((X,Y),cordination_other)<dist_threshold else False,XY))
-                count = len(all_cells_in_the_radious_for_specific_cell)
-                if effective_area <= 0:
-                    print("effective_area", effective_area)
-                all_cells_local_density_measurment_normalized.append(count/ effective_area if effective_area > 0 else 0)
-            return all_cells_local_density_measurment_normalized
-        except ZeroDivisionError:
-            print("ZeroDivisionError")
-            return all_cells_local_density_measurment_normalized
+    # @staticmethod #TODO: fixed the issue with corner and edge cells- tesing is needed
+   
 
 if __name__ == "__main__":
     # Example usage
