@@ -55,6 +55,28 @@ class uSpiCalc(SpiCalc):
 
     def calc_stat(self, dist_for_calc):
         return np.mean(dist_for_calc)
+    
+    def calc_avg_distance(self):
+        distance_diff_from_nighbors_list = []
+        if self.filter_neighbors_by_distance==1 or self.filter_neighbors_by_distance==0:
+            neighbors_level1 = self.neighbors_list
+            neighbors_level2 = self.neighbors_list2
+            neighbors_level3 = self.neighbors_list3
+            for idx in range(self.n_instances):
+                distance_diff_from_nighbors_list.extend([SpiCalc.get_real_distance(self.XY[idx],self.XY[neighbor]) for neighbor in neighbors_level1[idx]])
+                if self.filter_neighbors_by_level==1:
+                    continue
+                distance_diff_from_nighbors_list.extend([SpiCalc.get_real_distance(self.XY[idx],self.XY[neighbor]) for neighbor in neighbors_level2[idx]])
+                if self.filter_neighbors_by_level==2:
+                    continue
+                distance_diff_from_nighbors_list.extend([SpiCalc.get_real_distance(self.XY[idx],self.XY[neighbor]) for neighbor in neighbors_level3[idx]])
+        else:
+            vor = Voronoi(self.XY)
+            neighbors = vor.ridge_points
+            for i in range(len(neighbors)):
+                distance_diff_from_nighbors_list.append(0)
+        return np.mean(np.array(distance_diff_from_nighbors_list))
+
 
     
 

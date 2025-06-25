@@ -146,7 +146,7 @@ class SegregationIdx:
         self.permuted_si = permuted_si_list.copy()
         p_value = {key: np.sum(np.array(permuted_si_list.get(key, -1)) > observed_seg_idx.get(key,-1)) for key in permuted_si_list.keys()}
         self.res = {key: (observed_seg_idx.get(key), p_value.get(key,0)/kwargs.get('num_permutations', 1000), label_counts.get(key)) for key in observed_seg_idx.keys()}
-        self.res = {key: (observed_seg_idx.get(key), round(p_value.get(key, 0) / kwargs.get('num_permutations', 1000), 3), label_counts.get(key)) for key in observed_seg_idx.keys()}
+        # self.res = {key: (observed_seg_idx.get(key), round(p_value.get(key, 0) / kwargs.get('num_permutations', 1000), 3), label_counts.get(key)) for key in observed_seg_idx.keys()}
        
         return self.res
 

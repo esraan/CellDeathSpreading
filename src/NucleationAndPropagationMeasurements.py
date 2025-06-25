@@ -2447,7 +2447,7 @@ def calc_all_experiments_SPI_and_NI_for_landscape(
                         sliding_time_window_size = kwargs.get("sliding_time_window_size", 10),
                         only_recent_death_flag_for_neighbors_calc = kwargs.get("only_recent_death_flag_for_neighbors_calc", False),
                     meta_data_path=meta_data_full_file_path)
-        return  spi[0], p_nuc_global, spi[1]# ,norm_spi_values[0],
+        return  spi[0], p_nuc_global, spi[1]#, spi[2]# ,norm_spi_values[0],
     except FileNotFoundError:
         return (None,None)
 
@@ -2456,10 +2456,10 @@ def calc_experiment_SPI(cells_location: list,
                         cells_tods:list,
                         exp_temporal_resolution:int,
                         exp_treatment,
-                        **kwargs) -> int :
+                        **kwargs) -> tuple :
     cells_tods = get_experiment_cell_death_times_by_specific_siliding_window(cells_times_of_death=cells_tods,sliding_window_size = kwargs.get('sliding_time_window_size',10))
     spi_instance = uSpiCalc(XY=cells_location, die_times=cells_tods, temporal_resolution=exp_temporal_resolution, exp_treatment=exp_treatment, **kwargs)
-    return spi_instance.get_uspis(), spi_instance.assess_stat()[0]
+    return spi_instance.get_uspis(), spi_instance.assess_stat()[0], spi_instance.calc_avg_distance()
 
 
 def replace_ugly_long_name(name, cell_line = ""):
