@@ -78,13 +78,13 @@ class SegregationIdx:
         else:
             self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = get_neighbors(self.XY, self.dist_threshold, False, 3)
         #TODO: adjust the nighbors_to_include
-        self.segregation_index = self.calculate_segregation_index(XY= self.XY,
-                                                            neighbors_to_include=self.neighbors_level_1,
-                                                            labels=self.death_modes,
-                                                            dist_threshold = self.dist_threshold,
-                                                            **kwargs)
+        # self.segregation_index = self.calculate_segregation_index(XY= self.XY,
+        #                                                     neighbors_to_include=self.neighbors_level_1,
+        #                                                     labels=self.death_modes,
+        #                                                     dist_threshold = self.dist_threshold,
+        #                                                     **kwargs)
 
-    def get_segregation_index(self):
+    def get_segregation_index(self, **kwargs) -> dict:
         """
         Get the segregation index for the given XY coordinates and death modes.
         Returns
@@ -92,6 +92,11 @@ class SegregationIdx:
         dict
             Dictionary containing the segregation index for each cell and the overall segregation index.
         """
+        self.segregation_index = self.calculate_segregation_index(XY= self.XY,
+                                                            neighbors_to_include=self.neighbors_level_1,
+                                                            labels=self.death_modes,
+                                                            dist_threshold = self.dist_threshold,
+                                                            **kwargs)
         return self.segregation_index
            
     def calculate_segregation_index(self, XY:[list,np.ndarray],
@@ -134,7 +139,7 @@ class SegregationIdx:
         reverse_encoded_labels = {idx: label for label, idx in labels_encoding.items()}
         encoded_labels_to_array = np.array([labels_encoding.get(i, -1) for i in labels.flatten().tolist()])
         label_counts = {label: np.sum(encoded_labels_to_array == idx)/len(labels) for label, idx in labels_encoding.items()}
-        np.random.seed(kwargs.get('seed', 2019))
+        # np.random.seed(kwargs.get('seed', 2019))
         original_seg_idx = self.calculate_segregation_index_once(XY, neighbors_to_include, encoded_labels_to_array,reverse_encoded_labels, **kwargs)
         permuted_si_list = {key: [] for key in original_seg_idx.keys()}
         for i in range(kwargs.get('num_permutations', 1000)):
@@ -144,7 +149,7 @@ class SegregationIdx:
                 permuted_si_list.get(key, []).append(shuffled_seg_idx.get(key))
         observed_seg_idx = original_seg_idx.copy()
         self.permuted_si = permuted_si_list.copy()
-        p_value = {key: np.sum(np.array(permuted_si_list.get(key, -1)) > observed_seg_idx.get(key,-1)) for key in permuted_si_list.keys()}
+        p_value = {key: np.sum(np.array(permuted_si_list.get(key)) > observed_seg_idx.get(key)) for key in permuted_si_list.keys()}
         self.res = {key: (observed_seg_idx.get(key), p_value.get(key,0)/kwargs.get('num_permutations', 1000), label_counts.get(key)) for key in observed_seg_idx.keys()}
         # self.res = {key: (observed_seg_idx.get(key), round(p_value.get(key, 0) / kwargs.get('num_permutations', 1000), 3), label_counts.get(key)) for key in observed_seg_idx.keys()}
        

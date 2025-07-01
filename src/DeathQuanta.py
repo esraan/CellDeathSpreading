@@ -218,7 +218,7 @@ class DeathQuanta:
                 set_of_all_cells.update(set_new)
         for leader, community in nuc_blobs_identifier.items():
             nuc_blobs_identifier[leader] = np.array(community)
-        return nuc_blobs_identifier, set_of_all_cells
+        return nuc_blobs_identifier, {np.int32(item) for item in set_of_all_cells}
 
 
 

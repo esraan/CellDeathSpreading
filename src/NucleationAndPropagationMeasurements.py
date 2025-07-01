@@ -2423,7 +2423,7 @@ def calc_all_experiments_SPI_and_NI_for_landscape(
         cells_locis, cells_tods = read_experiment_cell_xy_and_death_times(exp_full_path=exp_full_path)
 
         # norm_spi_values = norm_spi(cells_locis=cells_locis,cells_tods=cells_tods,exp_temporal_resolution=exp_temporal_resolution,exp_treatment=exp_treatment)
-        spi =\
+        spi, pvalue, dist_avg =\
             calc_experiment_SPI(cells_tods=cells_tods,
                                 cells_location=cells_locis,
                                 exp_temporal_resolution=exp_temporal_resolution,
@@ -2447,7 +2447,7 @@ def calc_all_experiments_SPI_and_NI_for_landscape(
                         sliding_time_window_size = kwargs.get("sliding_time_window_size", 10),
                         only_recent_death_flag_for_neighbors_calc = kwargs.get("only_recent_death_flag_for_neighbors_calc", False),
                     meta_data_path=meta_data_full_file_path)
-        return  spi[0], p_nuc_global, spi[1]#, spi[2]# ,norm_spi_values[0],
+        return  spi, p_nuc_global, pvalue#, dist_avg# ,norm_spi_values[0],
     except FileNotFoundError:
         return (None,None)
 
