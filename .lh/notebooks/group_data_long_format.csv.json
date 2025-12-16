@@ -1,0 +1,18 @@
+{
+    "sourceFile": "notebooks/group_data_long_format.csv",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1752480115584,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1752480115584,
+            "name": "Commit-0",
+            "content": "Origin,Type,Metric,Value\r\nfield13_colony,necrosis,pvalue,1e-05\r\nfield13_colony,necrosis,expected,0.9954705691506562\r\nfield13_colony,necrosis,observed,0.7327668768304904\r\nfield13_colony,apoptosis,pvalue,1e-05\r\nfield13_colony,apoptosis,expected,0.9987060732501695\r\nfield13_colony,apoptosis,observed,0.9833473253593319\r\nfield14_colony,necrosis,pvalue,1e-05\r\nfield14_colony,necrosis,expected,1.0257915716824082\r\nfield14_colony,necrosis,observed,0.8240181011307687\r\nfield14_colony,apoptosis,pvalue,1e-05\r\nfield14_colony,apoptosis,expected,1.0587725841844724\r\nfield14_colony,apoptosis,observed,0.8872348052198027\r\nfield3_colony,necrosis,pvalue,1e-05\r\nfield3_colony,necrosis,expected,0.9128627314927121\r\nfield3_colony,necrosis,observed,0.8877104166775879\r\nfield3_colony,apoptosis,pvalue,1e-05\r\nfield3_colony,apoptosis,expected,0.12782542255946147\r\nfield3_colony,apoptosis,observed,nan\r\nfield11_colony,necrosis,pvalue,1e-05\r\nfield11_colony,necrosis,expected,1.0142969212455892\r\nfield11_colony,necrosis,observed,0.7177431738148514\r\nfield11_colony,apoptosis,pvalue,0.002\r\nfield11_colony,apoptosis,expected,0.8795352873388396\r\nfield11_colony,apoptosis,observed,0.9292684500683106\r\nfield14_two_colony,necrosis,pvalue,1e-05\r\nfield14_two_colony,necrosis,expected,1.0640791424265617\r\nfield14_two_colony,necrosis,observed,0.4626543068858758\r\nfield14_two_colony,apoptosis,pvalue,1e-05\r\nfield14_two_colony,apoptosis,expected,1.0580284853348185\r\nfield14_two_colony,apoptosis,observed,0.8359691580991232"
+        }
+    ]
+}

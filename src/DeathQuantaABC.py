@@ -11,9 +11,9 @@ import matplotlib.pyplot as plt
 from typing import *
 from enum import Enum
 from scipy.spatial import Voronoi
+from abc import ABC, abstractmethod
 from sklearn.preprocessing import LabelEncoder
 from scipy.stats import wasserstein_distance
-from abc import ABC, abstractmethod
 sys.path.append("/home/esraan/CellDeathSpreading/")
 from src.utils import get_experiment_cell_death_times_by_specific_siliding_window,read_experiment_cell_xy_and_death_times
 from src.quanta_utils import get_neighbors, get_time_difference, normalize_death_times
@@ -31,7 +31,7 @@ class DeathQuanta(ABC):
         try:
             sorted_indices = np.argsort(np.concatenate(death_times))
             flag = False
-        except Exception as e:
+        except Exception:
             flag = True
             sorted_indices = np.argsort(death_times)
         self.death_times = death_times[sorted_indices]
@@ -55,7 +55,7 @@ class DeathQuanta(ABC):
         Initialize neighbors based on the distance threshold and level.
         This method sets up the neighbors for each cell based on the specified distance threshold and level.
         """
-        if self.filter_neighbors_by_distance: 
+        if self.filter_neighbors_by_distance:
             if self.filter_neighbors_by_level:
                 self.neighbors_level_1, self.neighbors_level_2, self.neighbors_level_3 = get_neighbors(self.cells_xy, self.dist_threshold, True, neighbors_level)
             else:
@@ -70,7 +70,7 @@ class DeathQuanta(ABC):
         self.filter_neighbors_by_level = kwargs.get("filter_neighbors_by_level", True)
         self.pure_type = kwargs.get('pure_type', 'necrosis')
         self.n_permutation = kwargs.get('n_permutation', 1000)
-        self.normalize = True if kwargs.get('normalize', True) else False
+        self.normalize = kwargs.get('normalize', False)
 
     @abstractmethod
     def create_scramble(self):

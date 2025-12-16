@@ -31,7 +31,6 @@ class uSpiCalc(SpiCalc):
     def assess_stat(self):
         better_mean = 0
         time_death_means = []
-        all_shuffled_mean_sorted = []
         real_mean_time_death = self.calc_stat(self.neighbors_difference_death_times[0])
         if self.time_unit == 'frames':
              self.mean_time_death = real_mean_time_death * self.temporal_resolution
@@ -78,9 +77,6 @@ class uSpiCalc(SpiCalc):
         return np.mean(np.array(distance_diff_from_nighbors_list))
 
 
-    
-
-    
 if __name__ == '__main__':
     single_exp_full_path = '/sise/assafzar-group/assafzar/Esraa/CellDeathQuantification/Data/Experiments_XYT_CSV/OriginalTimeMinutesData/20160820_10A_FB_xy11.csv'
     cells_loci, cells_times_of_death = read_experiment_cell_xy_and_death_times(exp_full_path=single_exp_full_path)

@@ -4,6 +4,7 @@ import shutil
 import math
 import warnings
 import datetime
+import time
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -69,7 +70,7 @@ class DeathQuantaGlobal(DeathQuanta):
                 result[mask] = shuffled_withen
             self.permuted_death_time.append(result)
         
-    def get_permuted_deltaTOD_neighbors_pairs(self, uniform_deltaTOD:bool = True):
+    def calc_permuted_deltaTOD_neighbors_pairs(self, uniform_deltaTOD:bool = True):
         if uniform_deltaTOD:
             permuted_deltaTOD_pairs = []
             permuted_deltaTOD_pairs_means = []
@@ -77,50 +78,28 @@ class DeathQuantaGlobal(DeathQuanta):
                 org_TOD_pairs = self._calculate_deltaTOD_neighbors_pairs(self.permuted_death_time[idx])
                 permuted_deltaTOD_pairs.append(np.array(list(chain.from_iterable([org_TOD_pairs.get(mode, []) for mode in self.le.classes_]))))
                 permuted_deltaTOD_pairs_means.append(np.mean(permuted_deltaTOD_pairs[-1]))
-            threshold = np.percentile(permuted_deltaTOD_pairs_means,5)
-            indices = [i for i, score in enumerate(permuted_deltaTOD_pairs_means) if score <= threshold]
             self.permuted_deltaTOD_pairs_means = permuted_deltaTOD_pairs_means
             self.permuted_deltaTOD_pairs = permuted_deltaTOD_pairs
-            return permuted_deltaTOD_pairs_means[min(indices)] if indices else None, permuted_deltaTOD_pairs[min(indices)]
-            
         else:
-            permuted_deltaTOD_pairs = {item:[] for item in self.le.classes_}
+            permuted_deltaTOD_pairs = []
             permuted_deltaTOD_pairs_means = []
             for idx in range(self.n_permutation):
                 permuted_deltaTOD_pairs.append(self._calculate_deltaTOD_neighbors_pairs(self.permuted_death_time[idx]))
                 permuted_deltaTOD_pairs_means.append({mode: np.mean(permuted_deltaTOD_pairs[-1].get(mode, [])) for mode in permuted_deltaTOD_pairs[-1].keys()})
-            scores = np.array([np.mean(list(d.values())) for d in permuted_deltaTOD_pairs_means])
-            threshold = np.percentile(scores, 5)
-            indices = [i for i, score in enumerate(scores) if score <= threshold]
             self.permuted_deltaTOD_pairs_means = permuted_deltaTOD_pairs_means
             self.permuted_deltaTOD_pairs = permuted_deltaTOD_pairs
-            return permuted_deltaTOD_pairs_means[min(indices)] if indices else None, permuted_deltaTOD_pairs[min(indices)]
+    
     def calc_p_val(self):
-        pass
-        
-
-
-
-
-if __name__ == "__main__":
-    # Example usage
-    # OLD DATA
-    exps_dir_name = "/sise/assafzar-group/assafzar/Esraa/Others/fully_annotated_data/TimeFrames/"
-    meta_data_file_full_path= "/sise/assafzar-group/assafzar/Esraa/Others/ManuallyAnnotatedRoisuu.csv"
-    # meta_data_extract_exp_names= pd.read_csv(meta_data_file_full_path)
-    # exp_names = meta_data_extract_exp_names.iloc[:,1]
-    # print(exp_names[0])
-    # exp_full_path = os.path.join(exps_dir_name, exp_names[0])
-    # csv_file = pd.read_csv(exp_full_path)
-    # dist_threshold = 100
-    # cells_location = csv_file[["cell_x","cell_y"]].values
-    # di_times = csv_file[['death_time']].values
-    # death_modes = csv_file[["Mode"]].values
-    # de_qu = DeathQuanta(cells_xy=cells_location,
-    #                     death_times=di_times, 
-    #                     death_modes=death_modes,
-    #                     dist_threshold=dist_threshold,
-    #                     filter_neighbors_by_distance=True,
-    #                     neighbors_level=1)
-    # tod_pairs = de_qu.get_org_deltaTOD_neighbors_pairs()
-    # print(tod_pairs)
+        if not hasattr(self, 'permuted_deltaTOD_pairs_means') or not hasattr(self, 'permuted_deltaTOD_pairs'):
+            raise ValueError("Permuted deltaTOD pairs means not calculated. Call get_permuted_deltaTOD_neighbors_pairs() first.")
+        if len(self.le.classes_) >=2 :
+            scores = np.array([np.mean(list(d.values())) for d in self.permuted_deltaTOD_pairs_means])
+        else:
+            scores = np.array(self.permuted_deltaTOD_pairs_means)
+        # threshold = np.percentile(scores, 5)
+        threshold = np.mean(self.org_TOD_pairs)
+        indices = [i for i, score in enumerate(scores) if score <= threshold]
+        if not indices: 
+            warnings.warn("No indices found below the threshold. Returning None for p-value and deltaTOD pairs.")
+            return 0.00001, sorted(self.permuted_deltaTOD_pairs_means)[0], threshold
+        return len(indices)/self.n_permutation, sorted(self.permuted_deltaTOD_pairs_means)[0], threshold

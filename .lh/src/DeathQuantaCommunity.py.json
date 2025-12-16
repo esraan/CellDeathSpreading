@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 7,
             "patches": [
                 {
                     "date": 1750586071053,
@@ -12,6 +12,30 @@
                 {
                     "date": 1750586093528,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,9 +33,9 @@\n         except Exception as e:\n             flag = True\n             sorted_indices = np.argsort(death_times)\n         self.death_times = death_times[sorted_indices]\n-        self.cells_xy = cells_xy[sorted_indices]k0\n+        self.cells_xy = cells_xy[sorted_indices]\n         self.dist_threshold = dist_threshold\n         self.le = LabelEncoder()\n         self.filter_neighbors_by_distance = filter_neighbors_by_distance\n         self.neighbors_level = neighbors_level\n"
+                },
+                {
+                    "date": 1752400981983,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n sys.path.append(\"/home/esraan/CellDeathSpreading/\")\n from src.utils import get_experiment_cell_death_times_by_specific_siliding_window,read_experiment_cell_xy_and_death_times\n from src.quanta_utils import get_neighbors, get_time_difference, normalize_death_times\n \n-class DeathQuanta:\n+class DeathQuanta(ABC):\n     def __init__(self,\n                 cells_xy: np.ndarray, \n                 death_times: np.ndarray,\n                 death_modes: Union[np.ndarray,list] = None,\n"
+                },
+                {
+                    "date": 1752401002127,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,8 +15,9 @@\n from scipy.stats import wasserstein_distance\n sys.path.append(\"/home/esraan/CellDeathSpreading/\")\n from src.utils import get_experiment_cell_death_times_by_specific_siliding_window,read_experiment_cell_xy_and_death_times\n from src.quanta_utils import get_neighbors, get_time_difference, normalize_death_times\n+from DeathQuantaABC import DeathQuanta\n \n class DeathQuanta(ABC):\n     def __init__(self,\n                 cells_xy: np.ndarray, \n"
+                },
+                {
+                    "date": 1752401009123,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n from src.utils import get_experiment_cell_death_times_by_specific_siliding_window,read_experiment_cell_xy_and_death_times\n from src.quanta_utils import get_neighbors, get_time_difference, normalize_death_times\n from DeathQuantaABC import DeathQuanta\n \n-class DeathQuanta(ABC):\n+class DeathQuanta(DeathQuanta):\n     def __init__(self,\n                 cells_xy: np.ndarray, \n                 death_times: np.ndarray,\n                 death_modes: Union[np.ndarray,list] = None,\n"
+                },
+                {
+                    "date": 1752401018117,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n from src.utils import get_experiment_cell_death_times_by_specific_siliding_window,read_experiment_cell_xy_and_death_times\n from src.quanta_utils import get_neighbors, get_time_difference, normalize_death_times\n from DeathQuantaABC import DeathQuanta\n \n-class DeathQuanta(DeathQuanta):\n+class DeathQuantaCommunity(DeathQuanta):\n     def __init__(self,\n                 cells_xy: np.ndarray, \n                 death_times: np.ndarray,\n                 death_modes: Union[np.ndarray,list] = None,\n"
+                },
+                {
+                    "date": 1752401591346,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -145,9 +145,8 @@\n         np.random.shuffle(shuffled_times)\n         permuted_death_times[community] = shuffled_times\n         return permuted_death_times\n     \n-    \n     def create_scramble(self):\n         self.scrambles = []\n         for _ in range(self.n_scramble):\n             result = self.death_times.copy()\n"
+                },
+                {
+                    "date": 1752403788841,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -109,9 +109,9 @@\n         permuted_death_times[community] = shuffled_times\n         return permuted_death_times\n     \n     def create_scramble(self):\n-        for i in \n+        for i in ra\n         \n     def find_communities(self, level):\n         nuc_blobs_identifier = {}\n         set_of_all_cells = set()\n"
                 }
             ],
             "date": 1750586071053,

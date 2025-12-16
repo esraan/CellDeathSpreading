@@ -126,13 +126,18 @@ def normalize_death_times(death_times, n_type='median_and_percentile_range'):
         scale = iqr if iqr != 0 else 0.000000001
         death_times_norm = (death_times - min(death_times)) / scale
     elif n_type == 'z_score':
-        lower, upper = 2.5, 97.5
+        lower, upper = 5, 95
         p_low, p_high = np.percentile(death_times, [lower, upper])
         death_times = np.clip(death_times, p_low, p_high)
         mean_t = np.mean(death_times)
         std_t = np.std(death_times)
         scale = std_t if std_t != 0 else 0.000000001
         death_times_norm = (death_times - mean_t) / scale
+    elif n_type == 'min_max':
+        min_t = min(death_times)
+        max_t = max(death_times)
+        scale = max_t - min_t if (max_t - min_t) != 0 else 0.000000001
+        death_times_norm = (death_times - min_t) / scale
     else:
         raise ValueError("Normalization type must be 'median_and_percentile_range' or 'median_and_iqr'.")
     return death_times_norm

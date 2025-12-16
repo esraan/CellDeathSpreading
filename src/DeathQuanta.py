@@ -69,7 +69,7 @@ class DeathQuanta:
         self.filter_neighbors_by_level = kwargs.get("filter_neighbors_by_level", True)
         self.pure_type = kwargs.get('pure_type', 'necrosis')
         self.n_scramble = kwargs.get('n_scramble', 1000)
-        self.normalize = True if kwargs.get('normalize', True) else False
+        self.normalize = True if kwargs.get('normalize', False) else False
 
     def find_nucleator(self, level):
         nuc_blobs_identifier = {}
