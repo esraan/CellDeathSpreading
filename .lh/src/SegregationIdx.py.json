@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 26,
+            "activePatchIndex": 28,
             "patches": [
                 {
                     "date": 1749149050356,
@@ -112,6 +112,14 @@
                 {
                     "date": 1751007078223,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -83,9 +83,9 @@\n         #                                                     labels=self.death_modes,\n         #                                                     dist_threshold = self.dist_threshold,\n         #                                                     **kwargs)\n \n-    def get_segregation_index(self):\n+    def get_segregation_index(self, **kwargs) -> dict:\n         \"\"\"\n         Get the segregation index for the given XY coordinates and death modes.\n         Returns\n         -------\n"
+                },
+                {
+                    "date": 1765975166358,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -149,9 +149,9 @@\n                 permuted_si_list.get(key, []).append(shuffled_seg_idx.get(key))\n         observed_seg_idx = original_seg_idx.copy()\n         self.permuted_si = permuted_si_list.copy()\n         p_value = {key: np.sum(np.array(permuted_si_list.get(key)) > observed_seg_idx.get(key)) for key in permuted_si_list.keys()}\n-        self.res = {key: (observed_seg_idx.get(key), p_value.get(key,0)/kwargs.get('num_permutations', 1000), label_counts.get(key)) for key in observed_seg_idx.keys()}\n+        self.res = {key: (observed_seg_idx.get(key), p_value.get(key,0.0000)/kwargs.get('num_permutations', 1000), label_counts.get(key)) for key in observed_seg_idx.keys()}\n         # self.res = {key: (observed_seg_idx.get(key), round(p_value.get(key, 0) / kwargs.get('num_permutations', 1000), 3), label_counts.get(key)) for key in observed_seg_idx.keys()}\n        \n         return self.res\n \n"
+                },
+                {
+                    "date": 1765975180476,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -149,9 +149,9 @@\n                 permuted_si_list.get(key, []).append(shuffled_seg_idx.get(key))\n         observed_seg_idx = original_seg_idx.copy()\n         self.permuted_si = permuted_si_list.copy()\n         p_value = {key: np.sum(np.array(permuted_si_list.get(key)) > observed_seg_idx.get(key)) for key in permuted_si_list.keys()}\n-        self.res = {key: (observed_seg_idx.get(key), floatp_value.get(key,0.0000)/kwargs.get('num_permutations', 1000), label_counts.get(key)) for key in observed_seg_idx.keys()}\n+        self.res = {key: (observed_seg_idx.get(key), float(p_value.get(key,0.0000)/kwargs.get('num_permutations', 1000), label_counts.get(key)) for key in observed_seg_idx.keys()}\n         # self.res = {key: (observed_seg_idx.get(key), round(p_value.get(key, 0) / kwargs.get('num_permutations', 1000), 3), label_counts.get(key)) for key in observed_seg_idx.keys()}\n        \n         return self.res\n \n"
                 }
             ],
             "date": 1749149050356,

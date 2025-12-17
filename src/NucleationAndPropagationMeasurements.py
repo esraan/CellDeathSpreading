@@ -2449,7 +2449,7 @@ def calc_all_experiments_SPI_and_NI_for_landscape(
                     meta_data_path=meta_data_full_file_path)
         return  spi, p_nuc_global, pvalue#, dist_avg# ,norm_spi_values[0],
     except FileNotFoundError:
-        return (None,None)
+        return (None,None,None)
 
 
 def calc_experiment_SPI(cells_location: list,
